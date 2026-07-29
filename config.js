@@ -89,10 +89,20 @@ const RV_CONFIG = {
     subtitle: "Proyectos completados y entregados a clientes reales. Cada uno resuelve un problema concreto con tecnología de calidad.",
     projects: [
       {
+        id:    "proyectoMrPOS",
+        image: "assets/mrpos.png",
+        alt:   "MrPOS — Sistema Punto de Venta & Control de Stock Multirrubro",
+        tag:   "Software Pro · POS Multirrubro",
+        title: "MrPOS — Sistema Punto de Venta & Control de Stock",
+        desc:  "Sistema Punto de Venta (POS) profesional adaptado para cualquier rubro: Panadería, Botillería, Carnicería, Minimarket, Boutique y más. Incluye informes detallados, control de inventario en tiempo real, gestión de cajeros por PIN/RUT y ventas rápidas.",
+        tech:  ["Punto de Venta", "Control de Stock", "Multirrubro", "Informes de Ventas", "Gestión por PIN/RUT"],
+        link:  "#contacto"
+      },
+      {
         id:    "proyectoTallerSoftware",
         image: "assets/portfolio-taller.png",
         alt:   "Sistema de Gestión para Talleres y Servicio Técnico — Producto propio",
-        tag:   "Software Pro · Producto Destacado",
+        tag:   "Software Pro · Servicio Técnico & Talleres",
         title: "Sistema de Gestión para Talleres & Servicio Técnico",
         desc:  "Software integral para la administración operativa de talleres mecánicos y servicios técnicos. Control de órdenes de trabajo, seguimiento de repuestos, gestión de clientes, presupuestos e historial de vehículos/equipos.",
         tech:  ["Software Desktop", "Control de Stock", "Gestión de Órdenes", "Reportes PDF", "Demo en YouTube"],

@@ -139,7 +139,12 @@
     if (grid && p.projects) {
       grid.innerHTML = p.projects.map((proj, idx) => {
         const isYoutube = proj.link && (proj.link.includes('youtu.be') || proj.link.includes('youtube.com'));
-        const btnText = isYoutube ? '▶ Ver Demo en Video' : 'Ver proyecto ↗';
+        const isInternal = proj.link && proj.link.startsWith('#');
+        const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
+        const overlayText = isYoutube ? '▶ Ver Demo en Video' : (isInternal ? 'Cotizar Producto' : 'Ver proyecto ↗');
+        const btnLabel = isYoutube ? 'Ver Demostración en YouTube' : (isInternal ? 'Cotizar / Solicitar Demo' : 'Ver Sitio Web');
+        const btnIcon = isYoutube ? '🎬' : (isInternal ? '💬' : '🔗');
+
         return `
         <article class="portfolio-card reveal ${idx > 0 ? 'reveal-delay-' + (idx % 4) : ''}" id="${esc(proj.id || 'proj' + idx)}">
           <div class="portfolio-img-wrap">
@@ -149,7 +154,7 @@
               loading="lazy"
             />
             <div class="portfolio-overlay">
-              ${proj.link ? `<a href="${esc(proj.link)}" target="_blank" rel="noopener noreferrer" class="portfolio-view-btn">${btnText}</a>` : `<span class="portfolio-view-btn">Ver detalle</span>`}
+              ${proj.link ? `<a href="${esc(proj.link)}" ${targetAttr} class="portfolio-view-btn">${overlayText}</a>` : `<span class="portfolio-view-btn">Ver detalle</span>`}
             </div>
           </div>
           <div class="portfolio-info">
@@ -161,9 +166,9 @@
             </div>
             ${proj.link ? `
               <div style="margin-top:14px">
-                <a href="${esc(proj.link)}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;font-size:0.85rem;border-radius:6px">
-                  <span>${isYoutube ? '🎬' : '🔗'}</span>
-                  <span>${isYoutube ? 'Ver Demostración en YouTube' : 'Ver Sitio Web'}</span>
+                <a href="${esc(proj.link)}" ${targetAttr} class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;font-size:0.85rem;border-radius:6px">
+                  <span>${btnIcon}</span>
+                  <span>${btnLabel}</span>
                 </a>
               </div>
             ` : ''}
