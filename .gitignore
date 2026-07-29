@@ -1,0 +1,15 @@
+# Archivos temporales y de sistema
+*.zip
+temp_*.json
+*.log
+
+# Carpetas innecesarias
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Carpetas de otros proyectos dentro de este directorio
+social-hub/
+1/
+numero/
+rodriguez/
