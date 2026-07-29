@@ -99,6 +99,16 @@ const RV_CONFIG = {
         link:  "#contacto"
       },
       {
+        id:    "proyectoFarmaciaPro",
+        image: "assets/farmaciapro.png",
+        alt:   "FarmaciaPro — Sistema de Gestión para Farmacias y Control de Comisiones",
+        tag:   "Software Pro · Gestión Farmacéutica",
+        title: "FarmaciaPro — Gestión Farmacéutica & Comisiones",
+        desc:  "Software especializado para la administración integral de farmacias y boticas. Destaca por su sistema de comisiones configurables por vendedor por medicamento, control estricto de lotes y fechas de vencimiento, inventario por ubicación física (estanterías/vitrinas), gestión de laboratorios, compras, ventas POS e informes detallados.",
+        tech:  ["Gestión Farmacéutica", "Comisiones por Vendedor", "Lotes & Vencimiento", "Ubicación en Estanterías", "Punto de Venta POS"],
+        link:  "#contacto"
+      },
+      {
         id:    "proyectoTallerSoftware",
         image: "assets/portfolio-taller.png",
         alt:   "Sistema de Gestión para Talleres y Servicio Técnico — Producto propio",
