@@ -1,288 +1,491 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T&A Visualidad Digital | Diseño Web Premium</title>
-    <meta name="description" content="Impulsa tu negocio con páginas web de alto impacto, rápidas y optimizadas. T&A Visualidad Digital es tu agencia de desarrollo web.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RV Soluciones — Consultoría tecnológica y desarrollo de software a medida. Sitios web, sistemas de gestión y auditoría TI para empresas y negocios locales." />
+  <meta name="keywords" content="RV Soluciones, desarrollo web, sistemas empresariales, auditoría TI, software a medida, consultoría tecnológica" />
+  <meta property="og:title" content="RV Soluciones — Tecnología que transforma negocios" />
+  <meta property="og:description" content="Desarrollo web, sistemas de gestión y auditoría TI. Soluciones tecnológicas a medida para impulsar tu negocio." />
+  <meta property="og:type" content="website" />
+  <title>RV Soluciones — Tecnología que transforma negocios</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- Background Animation Elements -->
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <div class="glow-orb orb-3"></div>
 
-    <header class="glass-nav">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <span class="logo-tna">T&A</span> <span class="logo-text">Visualidad Digital</span>
+  <!-- =============================================
+       NAVIGATION
+  =============================================== -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container">
+      <div class="nav-inner">
+
+        <a href="#hero" class="nav-logo" aria-label="RV Soluciones inicio">
+          <img src="assets/logo.png" alt="RV Soluciones" class="nav-logo-img" />
+          <span class="nav-brand">RV <span>Soluciones</span></span>
+        </a>
+
+        <ul class="nav-links" id="navLinks" role="list">
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#portafolio">Portafolio</a></li>
+          <li><a href="#diferenciadores">Nosotros</a></li>
+          <li><a href="#contacto" class="nav-cta" id="navCtaBtn">Contáctame</a></li>
+          <!-- Close btn for mobile -->
+          <button class="nav-hamburger" id="navCloseMobile" aria-label="Cerrar menú" style="display:none; position:absolute; top:28px; right:24px;">
+            <span style="transform:rotate(45deg) translate(5px,5px)"></span>
+            <span style="opacity:0"></span>
+            <span style="transform:rotate(-45deg) translate(5px,-5px)"></span>
+          </button>
+        </ul>
+
+        <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- =============================================
+       HERO SECTION
+  =============================================== -->
+  <section id="hero" aria-label="Presentación principal">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-grid-lines"></div>
+
+    <div class="container">
+      <div class="hero-content">
+
+        <div class="hero-badge reveal">
+          Consultoría Tecnológica Profesional
+        </div>
+
+        <h1 class="hero-title reveal reveal-delay-1">
+          Tecnología que
+          <span class="line-gold">transforma</span>
+          negocios
+        </h1>
+
+        <p class="hero-description reveal reveal-delay-2">
+          Diseño y desarrollo soluciones digitales a medida — sitios web profesionales,
+          sistemas de gestión empresarial y auditoría TI — para que tu negocio crezca
+          con tecnología de calidad.
+        </p>
+
+        <div class="hero-actions reveal reveal-delay-3">
+          <a href="#portafolio" class="btn-primary" id="heroPortfolioBtn">
+            <span>Ver mis proyectos</span>
+            <span>↓</span>
+          </a>
+          <a href="#contacto" class="btn-secondary" id="heroContactBtn">
+            <span>💬</span>
+            <span>Hablemos</span>
+          </a>
+        </div>
+
+        <div class="hero-stats reveal reveal-delay-4">
+          <div class="stat-item">
+            <span class="stat-number" data-count="100">0</span>
+            <span class="stat-label">% Personalizado</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-count="3">0</span>
+            <span class="stat-label">Servicios clave</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-count="0">0</span>
+            <span class="stat-label">Costos ocultos</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-circle"></div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       SERVICES SECTION
+  =============================================== -->
+  <section id="servicios" aria-label="Servicios">
+    <div class="container">
+
+      <div class="services-header">
+        <div class="reveal">
+          <span class="section-label">¿Qué ofrezco?</span>
+          <h2 class="section-title">Servicios diseñados<br/>para tu negocio</h2>
+        </div>
+        <p class="section-subtitle reveal reveal-delay-1">
+          Cada proyecto es único. Trabajo contigo desde la idea hasta la entrega,
+          con soluciones a medida que realmente resuelven tu problema.
+        </p>
+      </div>
+
+      <div class="services-grid">
+
+        <article class="service-card reveal" id="servicioWeb">
+          <div class="service-icon">🌐</div>
+          <h3 class="service-title">Sitios Web para Negocios</h3>
+          <p class="service-desc">
+            Diseño y desarrollo sitios web modernos, rápidos y profesionales
+            que generan confianza y atraen más clientes a tu negocio.
+          </p>
+          <ul class="service-features" role="list">
+            <li class="service-feature">Diseño responsive (móvil y escritorio)</li>
+            <li class="service-feature">Catálogo de productos interactivo</li>
+            <li class="service-feature">Optimizado para buscadores (SEO)</li>
+            <li class="service-feature">Formularios de contacto y WhatsApp</li>
+          </ul>
+        </article>
+
+        <article class="service-card reveal reveal-delay-1" id="servicioSistemas">
+          <div class="service-icon">📊</div>
+          <h3 class="service-title">Sistemas de Gestión</h3>
+          <p class="service-desc">
+            Reportes empresariales, dashboards y sistemas de control que te
+            dan visibilidad total sobre tu negocio para tomar mejores decisiones.
+          </p>
+          <ul class="service-features" role="list">
+            <li class="service-feature">Reportes automatizados y visuales</li>
+            <li class="service-feature">Control de inventario y ventas</li>
+            <li class="service-feature">Exportación a PDF y Excel</li>
+            <li class="service-feature">Sin dependencias de internet</li>
+          </ul>
+        </article>
+
+        <article class="service-card reveal reveal-delay-2" id="servicioAuditoria">
+          <div class="service-icon">🔍</div>
+          <h3 class="service-title">Auditoría TI</h3>
+          <p class="service-desc">
+            Análisis completo del parque tecnológico de tu empresa: hardware,
+            software, licencias y seguridad para optimizar costos y reducir riesgos.
+          </p>
+          <ul class="service-features" role="list">
+            <li class="service-feature">Inventario detallado de equipos y SW</li>
+            <li class="service-feature">Análisis de seguridad y vulnerabilidades</li>
+            <li class="service-feature">Reporte ejecutivo con recomendaciones</li>
+            <li class="service-feature">Plan de optimización de licencias</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PORTFOLIO SECTION
+  =============================================== -->
+  <section id="portafolio" aria-label="Portafolio de proyectos">
+    <div class="container">
+
+      <header class="portfolio-header reveal">
+        <span class="section-label">Proyectos reales</span>
+        <h2 class="section-title">Trabajo que habla<br/>por sí mismo</h2>
+        <p class="section-subtitle">
+          Proyectos completados y entregados a clientes reales. Cada uno
+          resuelve un problema concreto con tecnología de calidad.
+        </p>
+      </header>
+
+      <div class="portfolio-grid">
+
+        <article class="portfolio-card reveal" id="proyectoFerreteria">
+          <div class="portfolio-img-wrap">
+            <img
+              src="assets/portfolio-ferreteria.png"
+              alt="Sitio web Ferretería La Sierra — proyecto completado"
+              loading="lazy"
+            />
+            <div class="portfolio-overlay">
+              <span class="portfolio-view-btn">Ver proyecto</span>
+            </div>
+          </div>
+          <div class="portfolio-info">
+            <span class="portfolio-tag">Sitio Web · Comercio Local</span>
+            <h3 class="portfolio-title">Ferretería La Sierra</h3>
+            <p class="portfolio-desc">
+              Sitio web moderno y completo para ferretería local. Incluye catálogo
+              interactivo de productos, sección de contacto con WhatsApp, galería
+              de imágenes y diseño atractivo para captar clientes online.
+            </p>
+            <div class="portfolio-tech" role="list" aria-label="Tecnologías usadas">
+              <span class="tech-tag">HTML5</span>
+              <span class="tech-tag">CSS3</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">Responsive</span>
+              <span class="tech-tag">Sin backend</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal reveal-delay-1" id="proyectoReportes">
+          <div class="portfolio-img-wrap">
+            <img
+              src="assets/portfolio-reportes.png"
+              alt="Sistema de reportes empresariales — proyecto completado"
+              loading="lazy"
+            />
+            <div class="portfolio-overlay">
+              <span class="portfolio-view-btn">Ver proyecto</span>
+            </div>
+          </div>
+          <div class="portfolio-info">
+            <span class="portfolio-tag">Sistema · Gestión Empresarial</span>
+            <h3 class="portfolio-title">Sistema de Reportes Empresarial</h3>
+            <p class="portfolio-desc">
+              Dashboard de reportes empresariales completamente autónomo.
+              Visualización de datos, métricas clave y exportación de informes
+              sin necesidad de servidor ni conexión a internet.
+            </p>
+            <div class="portfolio-tech" role="list" aria-label="Tecnologías usadas">
+              <span class="tech-tag">HTML5</span>
+              <span class="tech-tag">Dashboard</span>
+              <span class="tech-tag">Gráficas</span>
+              <span class="tech-tag">Standalone</span>
+              <span class="tech-tag">Sin servidor</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       WHY ME SECTION
+  =============================================== -->
+  <section id="diferenciadores" aria-label="Por qué elegirme">
+    <div class="container">
+      <div class="why-grid">
+
+        <div class="why-content">
+          <span class="section-label reveal">¿Por qué RV Soluciones?</span>
+          <h2 class="section-title reveal reveal-delay-1">Mi compromiso<br/>con tu proyecto</h2>
+          <p class="section-subtitle reveal reveal-delay-2">
+            No soy una agencia genérica. Soy un profesional independiente que
+            trabaja directamente contigo para entender tu negocio y entregarte
+            exactamente lo que necesitas.
+          </p>
+
+          <div class="why-points">
+
+            <div class="why-point reveal reveal-delay-1">
+              <div class="why-icon">🎯</div>
+              <div class="why-text">
+                <h4>Soluciones a medida</h4>
+                <p>Nada de plantillas genéricas. Todo se diseña y desarrolla específicamente para tu negocio y tus objetivos.</p>
+              </div>
+            </div>
+
+            <div class="why-point reveal reveal-delay-2">
+              <div class="why-icon">⚡</div>
+              <div class="why-text">
+                <h4>Entrega rápida y eficiente</h4>
+                <p>Proyectos bien planificados que se entregan a tiempo, sin sorpresas ni retrasos innecesarios.</p>
+              </div>
+            </div>
+
+            <div class="why-point reveal reveal-delay-3">
+              <div class="why-icon">💎</div>
+              <div class="why-text">
+                <h4>Transparencia total en precios</h4>
+                <p>Cotización clara desde el inicio. Sin costos ocultos, sin sorpresas al final del proyecto.</p>
+              </div>
+            </div>
+
+            <div class="why-point reveal reveal-delay-4">
+              <div class="why-icon">🛡️</div>
+              <div class="why-text">
+                <h4>Soporte post-entrega</h4>
+                <p>Mi trabajo no termina con la entrega. Te acompaño para que la solución funcione perfectamente.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="why-cards">
+          <div class="why-card reveal">
+            <div class="why-card-number" data-count="100">0%</div>
+            <div class="why-card-label">Código personalizado</div>
+          </div>
+          <div class="why-card reveal reveal-delay-1">
+            <div class="why-card-number" data-count="3">0</div>
+            <div class="why-card-label">Servicios especializados</div>
+          </div>
+          <div class="why-card reveal reveal-delay-2">
+            <div class="why-card-number" data-count="0">$0</div>
+            <div class="why-card-label">Costos ocultos</div>
+          </div>
+          <div class="why-card reveal reveal-delay-3">
+            <div class="why-card-number">✓</div>
+            <div class="why-card-label">Soporte incluido</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       CONTACT SECTION
+  =============================================== -->
+  <section id="contacto" aria-label="Contacto">
+    <div class="container">
+      <div class="contact-grid">
+
+        <div class="contact-left">
+          <span class="section-label reveal">Contáctame</span>
+          <h2 class="section-title reveal reveal-delay-1">Hablemos de<br/>tu proyecto</h2>
+          <p class="section-subtitle reveal reveal-delay-2">
+            ¿Tienes una idea o necesitas una solución tecnológica para tu negocio?
+            Escríbeme y te respondo lo antes posible con una propuesta sin compromiso.
+          </p>
+
+          <div class="contact-methods reveal reveal-delay-3">
+            <a href="https://wa.me/1234567890?text=Hola%20RV%20Soluciones%2C%20quiero%20información%20sobre%20sus%20servicios"
+               class="contact-method"
+               id="whatsappContactBtn"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Contactar por WhatsApp">
+              <div class="contact-method-icon">📱</div>
+              <div class="contact-method-info">
+                <h4>WhatsApp</h4>
+                <p>Respuesta rápida disponible</p>
+              </div>
             </a>
-            <nav class="nav-links">
-                <a href="#servicios">Servicios</a>
-                <a href="#beneficios">Beneficios</a>
-                <a href="#contacto">Contacto</a>
-            </nav>
-            <a href="tel:+56965345341" class="btn btn-outline">
-                <i class="fa-solid fa-phone"></i> Llámanos
+
+            <a href="mailto:contacto@rvsoluciones.com"
+               class="contact-method"
+               id="emailContactBtn"
+               aria-label="Enviar correo electrónico">
+              <div class="contact-method-icon">✉️</div>
+              <div class="contact-method-info">
+                <h4>Email</h4>
+                <p>contacto@rvsoluciones.com</p>
+              </div>
             </a>
+
+            <div class="contact-method" id="locationMethod">
+              <div class="contact-method-icon">📍</div>
+              <div class="contact-method-info">
+                <h4>Ubicación</h4>
+                <p>Servicio presencial y remoto</p>
+              </div>
+            </div>
+          </div>
         </div>
-    </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <div class="badge">Agencia de Desarrollo Web Premium</div>
-                <h1 class="hero-title">
-                    Transformamos tu visión en una 
-                    <span class="text-gradient">Experiencia Digital</span> Única.
-                </h1>
-                <p class="hero-subtitle">
-                    Diseñamos páginas web modernas, rápidas y optimizadas para ventas que destacan a tu marca y cautivan a tus clientes desde el primer segundo.
-                </p>
-                <div class="hero-cta">
-                    <a href="tel:+56965345341" class="btn btn-primary pulse-animation">
-                        <i class="fa-brands fa-whatsapp"></i> Hablar con un Asesor (+569 65345341)
-                    </a>
-                    <a href="#servicios" class="btn btn-secondary">
-                        Ver Servicios
-                    </a>
-                </div>
-                <div class="social-proof">
-                    <div class="avatars">
-                        <img src="https://i.pravatar.cc/100?img=1" alt="Cliente">
-                        <img src="https://i.pravatar.cc/100?img=2" alt="Cliente">
-                        <img src="https://i.pravatar.cc/100?img=3" alt="Cliente">
-                        <img src="https://i.pravatar.cc/100?img=4" alt="Cliente">
-                    </div>
-                    <span>Únete a más de <strong>100+</strong> empresas que ya escalaron sus ventas.</span>
-                </div>
+        <div class="contact-form reveal reveal-delay-2">
+          <h3>Envíame un mensaje</h3>
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="formNombre">Nombre</label>
+                <input
+                  type="text"
+                  id="formNombre"
+                  name="nombre"
+                  placeholder="Tu nombre"
+                  required
+                  autocomplete="given-name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="formEmpresa">Empresa / Negocio</label>
+                <input
+                  type="text"
+                  id="formEmpresa"
+                  name="empresa"
+                  placeholder="Tu negocio (opcional)"
+                  autocomplete="organization"
+                />
+              </div>
             </div>
-            <div class="hero-visual">
-                <div class="glass-mockup">
-                    <div class="mockup-header">
-                        <div class="dot red"></div>
-                        <div class="dot yellow"></div>
-                        <div class="dot green"></div>
-                    </div>
-                    <div class="mockup-body">
-                        <div class="skeleton-nav">
-                            <div class="sk-logo"></div>
-                            <div class="sk-links"></div>
-                        </div>
-                        <div class="skeleton-hero">
-                            <div class="sk-title"></div>
-                            <div class="sk-text"></div>
-                            <div class="sk-btn"></div>
-                        </div>
-                        <div class="skeleton-cards">
-                            <div class="sk-card"></div>
-                            <div class="sk-card"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Services Section -->
-        <section id="servicios" class="services">
-            <div class="section-header">
-                <h2>Nuestras <span class="text-gradient">Soluciones Web</span></h2>
-                <p>No solo creamos páginas, construimos herramientas de venta 24/7.</p>
+            <div class="form-group">
+              <label for="formEmail">Correo electrónico</label>
+              <input
+                type="email"
+                id="formEmail"
+                name="email"
+                placeholder="tu@correo.com"
+                required
+                autocomplete="email"
+              />
             </div>
-            
-            <div class="services-grid">
-                <!-- Service 1 -->
-                <div class="service-card glass-panel">
-                    <div class="service-icon"><i class="fa-solid fa-rocket"></i></div>
-                    <h3>Landing Pages</h3>
-                    <p>Páginas de aterrizaje altamente optimizadas diseñadas para convertir visitantes en clientes potenciales de forma agresiva y elegante.</p>
-                    <ul class="service-features">
-                        <li><i class="fa-solid fa-check"></i> Alta conversión</li>
-                        <li><i class="fa-solid fa-check"></i> Diseño persuasivo</li>
-                    </ul>
-                </div>
-                
-                <!-- Service 2 -->
-                <div class="service-card glass-panel featured">
-                    <div class="popular-badge">Más Popular</div>
-                    <div class="service-icon"><i class="fa-solid fa-store"></i></div>
-                    <h3>Tiendas Online (E-commerce)</h3>
-                    <p>Vende tus productos todo el año con un catálogo digital profesional, pasarelas de pago integradas y control total de inventario.</p>
-                    <ul class="service-features">
-                        <li><i class="fa-solid fa-check"></i> Pagos seguros</li>
-                        <li><i class="fa-solid fa-check"></i> Gestión fácil</li>
-                    </ul>
-                </div>
 
-                <!-- Service 3 -->
-                <div class="service-card glass-panel">
-                    <div class="service-icon"><i class="fa-solid fa-building"></i></div>
-                    <h3>Web Corporativa</h3>
-                    <p>Transmite confianza y autoridad con un sitio web institucional impecable que resalta el valor y la historia de tu empresa.</p>
-                    <ul class="service-features">
-                        <li><i class="fa-solid fa-check"></i> Diseño premium</li>
-                        <li><i class="fa-solid fa-check"></i> SEO optimizado</li>
-                    </ul>
-                </div>
+            <div class="form-group">
+              <label for="formServicio">Servicio de interés</label>
+              <select id="formServicio" name="servicio" required>
+                <option value="" disabled selected>Selecciona un servicio...</option>
+                <option value="web">Sitio Web para mi negocio</option>
+                <option value="sistema">Sistema de Gestión / Reportes</option>
+                <option value="auditoria">Auditoría TI</option>
+                <option value="otro">Otro / Consulta general</option>
+              </select>
             </div>
-        </section>
 
-        <!-- Why Us / Features -->
-        <section id="beneficios" class="features">
-            <div class="features-content">
-                <h2>¿Por qué elegir <span class="text-gradient">T&A Visualidad Digital</span>?</h2>
-                <p>Combinamos estética y rendimiento. Tu éxito es el nuestro.</p>
-                
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
-                        <div class="feature-text">
-                            <h4>Rendimiento Ultrarrápido</h4>
-                            <p>Tiempos de carga mínimos para retener a tus usuarios y mejorar tu posición en Google.</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
-                        <div class="feature-text">
-                            <h4>Diseño 100% Responsivo</h4>
-                            <p>Se ve y funciona perfecto en celulares, tablets y computadoras de escritorio.</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon"><i class="fa-solid fa-paintbrush"></i></div>
-                        <div class="feature-text">
-                            <h4>Estética Vanguardiasta</h4>
-                            <p>Implementamos las últimas tendencias de diseño UI/UX para que tu marca destaque.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="formMensaje">Mensaje</label>
+              <textarea
+                id="formMensaje"
+                name="mensaje"
+                placeholder="Cuéntame sobre tu proyecto o necesidad..."
+                required
+              ></textarea>
             </div>
-            <div class="features-visual">
-                <div class="stat-card glass-panel tilt-card">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Uptime Garantizado</div>
-                </div>
-                <div class="stat-card glass-panel tilt-card delay-1">
-                    <div class="stat-number"><i class="fa-brands fa-google"></i> SEO</div>
-                    <div class="stat-label">Optimización Nativa</div>
-                </div>
-                <div class="stat-card glass-panel tilt-card delay-2">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Soporte Técnico</div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Call to Action -->
-        <section id="contacto" class="cta-section">
-            <div class="cta-glass-container">
-                <h2>¿Listo para digitalizar tu negocio con estilo?</h2>
-                <p>No pierdas más clientes. Empieza hoy a construir tu presencia online con T&A Visualidad Digital.</p>
-                <a href="tel:+56965345341" class="btn btn-primary btn-large glow-btn">
-                    <i class="fa-solid fa-phone-volume"></i> Llamar Ahora: +569 65345341
-                </a>
-                <p class="cta-note">Respuesta rápida garantizada. ¡Hablemos de tu proyecto!</p>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <a href="#" class="logo">
-                    <span class="logo-tna">T&A</span> <span class="logo-text">Visualidad Digital</span>
-                </a>
-                <p>Agencia de diseño y desarrollo web de alto rendimiento. Creamos experiencias digitales inolvidables.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Enlaces Rápidos</h4>
-                <ul>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#beneficios">Beneficios</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h4>Contacto</h4>
-                <p><i class="fa-solid fa-phone"></i> <a href="tel:+56965345341">+569 65345341</a></p>
-                <p><i class="fa-solid fa-envelope"></i> hola@tnavisualidad.com</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
-            </div>
+            <button type="submit" class="btn-submit" id="submitFormBtn">
+              Enviar mensaje →
+            </button>
+          </form>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 T&A Visualidad Digital. Todos los derechos reservados.</p>
-        </div>
-    </footer>
 
-    <script src="script.js"></script>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FOOTER
+  =============================================== -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          RV <span>Soluciones</span>
+        </div>
+        <p class="footer-copy">
+          © 2025 RV Soluciones · Todos los derechos reservados
+        </p>
+        <nav class="footer-links" aria-label="Links del footer">
+          <a href="#servicios">Servicios</a>
+          <a href="#portafolio">Portafolio</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/1234567890?text=Hola%20RV%20Soluciones%2C%20me%20interesa%20conocer%20sus%20servicios"
+     class="whatsapp-float"
+     id="whatsappFloat"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Abrir WhatsApp de RV Soluciones"
+     title="Escríbenos por WhatsApp">
+    💬
+  </a>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <script src="main.js"></script>
 </body>
 </html>
-<!-- Particles Script for Background -->
-<script>
-    // Create random particles in the background
-    document.addEventListener('DOMContentLoaded', () => {
-        const createParticles = () => {
-            const container = document.createElement('div');
-            container.id = 'particles-bg';
-            container.style.position = 'fixed';
-            container.style.top = '0';
-            container.style.left = '0';
-            container.style.width = '100%';
-            container.style.height = '100%';
-            container.style.pointerEvents = 'none';
-            container.style.zIndex = '-2';
-            document.body.prepend(container);
-
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                const size = Math.random() * 4 + 1;
-                
-                particle.style.position = 'absolute';
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.background = 'rgba(255, 255, 255, ' + (Math.random() * 0.3 + 0.1) + ')';
-                particle.style.borderRadius = '50%';
-                
-                // Random position
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.top = Math.random() * 100 + 'vh';
-                
-                // Animation setup
-                const duration = Math.random() * 20 + 10;
-                particle.style.transition = 'transform ' + duration + 's linear';
-                
-                container.appendChild(particle);
-
-                // Move them slowly
-                setTimeout(() => {
-                    particle.style.transform = 'translate(' + (Math.random() * 200 - 100) + 'px, ' + (Math.random() * -200 - 50) + 'px)';
-                }, 100);
-            }
-        };
-
-        createParticles();
-
-        // Add float and glow classes to existing elements dynamically
-        const cards = document.querySelectorAll('.service-card');
-        cards.forEach((card, index) => {
-            if(index === 1) card.classList.add('float-element'); // Float the middle card
-            card.classList.add('glow-on-hover');
-        });
-
-        const heroImg = document.querySelector('.glass-mockup');
-        if(heroImg) heroImg.classList.add('float-element');
-
-        const mainBtn = document.querySelector('.btn-primary.btn-large');
-        if(mainBtn) mainBtn.classList.add('glow-on-hover');
-    });
-</script>
