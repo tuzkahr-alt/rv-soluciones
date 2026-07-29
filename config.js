@@ -89,6 +89,16 @@ const RV_CONFIG = {
     subtitle: "Proyectos completados y entregados a clientes reales. Cada uno resuelve un problema concreto con tecnología de calidad.",
     projects: [
       {
+        id:    "proyectoTallerSoftware",
+        image: "assets/portfolio-taller.png",
+        alt:   "Sistema de Gestión para Talleres y Servicio Técnico — Producto propio",
+        tag:   "Software Pro · Producto Destacado",
+        title: "Sistema de Gestión para Talleres & Servicio Técnico",
+        desc:  "Software integral para la administración operativa de talleres mecánicos y servicios técnicos. Control de órdenes de trabajo, seguimiento de repuestos, gestión de clientes, presupuestos e historial de vehículos/equipos.",
+        tech:  ["Software Desktop", "Control de Stock", "Gestión de Órdenes", "Reportes PDF", "Demo en YouTube"],
+        link:  "https://youtu.be/w4FZrehLy_I"
+      },
+      {
         id:    "proyectoFerreteria",
         image: "assets/portfolio-ferreteria.png",
         alt:   "Sitio web Ferretería La Sierra — proyecto completado",

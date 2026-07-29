@@ -137,8 +137,11 @@
 
     const grid = document.querySelector('#portafolio .portfolio-grid');
     if (grid && p.projects) {
-      grid.innerHTML = p.projects.map((proj, idx) => `
-        <article class="portfolio-card reveal ${idx > 0 ? 'reveal-delay-' + idx : ''}" id="${esc(proj.id || 'proj' + idx)}">
+      grid.innerHTML = p.projects.map((proj, idx) => {
+        const isYoutube = proj.link && (proj.link.includes('youtu.be') || proj.link.includes('youtube.com'));
+        const btnText = isYoutube ? '▶ Ver Demo en Video' : 'Ver proyecto ↗';
+        return `
+        <article class="portfolio-card reveal ${idx > 0 ? 'reveal-delay-' + (idx % 4) : ''}" id="${esc(proj.id || 'proj' + idx)}">
           <div class="portfolio-img-wrap">
             <img
               src="${esc(proj.image || 'assets/portfolio-ferreteria.png')}"
@@ -146,7 +149,7 @@
               loading="lazy"
             />
             <div class="portfolio-overlay">
-              ${proj.link ? `<a href="${esc(proj.link)}" target="_blank" class="portfolio-view-btn">Ver proyecto ↗</a>` : `<span class="portfolio-view-btn">Ver proyecto</span>`}
+              ${proj.link ? `<a href="${esc(proj.link)}" target="_blank" rel="noopener noreferrer" class="portfolio-view-btn">${btnText}</a>` : `<span class="portfolio-view-btn">Ver detalle</span>`}
             </div>
           </div>
           <div class="portfolio-info">
@@ -156,9 +159,17 @@
             <div class="portfolio-tech" role="list" aria-label="Tecnologías usadas">
               ${(proj.tech || []).map(t => `<span class="tech-tag">${esc(t)}</span>`).join('')}
             </div>
+            ${proj.link ? `
+              <div style="margin-top:14px">
+                <a href="${esc(proj.link)}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;font-size:0.85rem;border-radius:6px">
+                  <span>${isYoutube ? '🎬' : '🔗'}</span>
+                  <span>${isYoutube ? 'Ver Demostración en YouTube' : 'Ver Sitio Web'}</span>
+                </a>
+              </div>
+            ` : ''}
           </div>
         </article>
-      `).join('');
+      `}).join('');
     }
   }
 
