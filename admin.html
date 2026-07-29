@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — RV Soluciones CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="config.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0b0d14;
+      --surface:   #13161f;
+      --surface2:  #1a1e2a;
+      --border:    #252a38;
+      --gold:      #c9a84c;
+      --gold-dim:  rgba(201,168,76,.15);
+      --text:      #e8eaf0;
+      --muted:     #7a819a;
+      --danger:    #e05252;
+      --success:   #4caf7d;
+      --accent:    #4a80f5;
+      --radius:    10px;
+      --sidebar-w: 220px;
+    }
+
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ── LOGIN ── */
+    #loginScreen {
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; flex-direction: column; gap: 24px;
+    }
+    #loginScreen h1 { font-size: 1.6rem; color: var(--gold); letter-spacing: .5px; }
+    #loginScreen p  { color: var(--muted); font-size: .9rem; }
+    .login-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px 36px; width: 340px; display: flex; flex-direction: column; gap: 16px; }
+    .login-box label { font-size: .8rem; color: var(--muted); font-weight: 500; letter-spacing: .5px; text-transform: uppercase; }
+    .login-box input { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); padding: 10px 14px; font-size: .95rem; width: 100%; transition: border .2s; outline: none; font-family: inherit; }
+    .login-box input:focus { border-color: var(--gold); }
+    .login-box button { background: var(--gold); color: #000; border: none; border-radius: 8px; padding: 12px; font-weight: 700; font-size: .95rem; cursor: pointer; transition: opacity .2s; font-family: inherit; }
+    .login-box button:hover { opacity: .85; }
+    #loginError { color: var(--danger); font-size: .85rem; text-align: center; display: none; }
+
+    /* ── LAYOUT ── */
+    #appLayout { display: flex; height: 100vh; overflow: hidden; }
+
+    /* ── SIDEBAR ── */
+    aside {
+      width: var(--sidebar-w); background: var(--surface); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; flex-shrink: 0;
+    }
+    .sidebar-logo {
+      padding: 22px 20px 18px; border-bottom: 1px solid var(--border);
+      font-weight: 700; font-size: 1rem; color: var(--gold);
+    }
+    .sidebar-logo span { color: var(--muted); font-size: .72rem; display: block; font-weight: 400; margin-top: 2px; }
+    nav { flex: 1; padding: 12px 10px; overflow-y: auto; }
+    .nav-section { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; font-weight: 600; padding: 14px 10px 6px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 8px; cursor: pointer;
+      font-size: .88rem; color: var(--muted); transition: all .18s;
+      border: none; background: none; width: 100%; text-align: left; font-family: inherit;
+    }
+    .nav-item:hover   { background: var(--surface2); color: var(--text); }
+    .nav-item.active  { background: var(--gold-dim); color: var(--gold); font-weight: 600; }
+    .nav-item .icon   { font-size: 1.1rem; width: 22px; text-align: center; }
+    .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); }
+    .sidebar-footer button { width: 100%; padding: 9px; border-radius: 8px; border: 1px solid var(--border); background: none; color: var(--muted); cursor: pointer; font-size: .82rem; font-family: inherit; transition: all .2s; }
+    .sidebar-footer button:hover { border-color: var(--danger); color: var(--danger); }
+
+    /* ── MAIN AREA ── */
+    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .topbar {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 58px; display: flex; align-items: center;
+      justify-content: space-between; flex-shrink: 0;
+    }
+    .topbar h1 { font-size: 1rem; font-weight: 600; }
+    .topbar-actions { display: flex; gap: 10px; }
+    .btn { padding: 8px 16px; border-radius: 8px; font-size: .85rem; font-weight: 600; cursor: pointer; border: none; transition: all .18s; font-family: inherit; }
+    .btn-gold   { background: var(--gold); color: #000; }
+    .btn-gold:hover { opacity: .85; }
+    .btn-outline { background: none; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-danger { background: none; border: 1px solid var(--danger); color: var(--danger); }
+    .btn-danger:hover { background: var(--danger); color: #fff; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover { opacity: .85; }
+    .btn-sm { padding: 5px 10px; font-size: .78rem; }
+
+    .content-area { flex: 1; overflow-y: auto; padding: 28px; }
+
+    /* ── PANELS ── */
+    .panel { display: none; flex-direction: column; gap: 20px; }
+    .panel.active { display: flex; }
+
+    /* ── CARD ── */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .card-title { font-size: .78rem; text-transform: uppercase; letter-spacing: .6px; font-weight: 600; color: var(--muted); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+    /* ── FORM ELEMENTS ── */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: .78rem; color: var(--muted); font-weight: 500; }
+    .form-group input, .form-group textarea, .form-group select {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 7px;
+      color: var(--text); padding: 9px 12px; font-size: .88rem;
+      font-family: inherit; outline: none; transition: border .2s; resize: vertical;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
+    .form-group textarea { min-height: 80px; }
+    .full-width { grid-column: 1 / -1; }
+
+    /* ── LIST ITEMS (servicios, portafolio, nav) ── */
+    .list-wrap { display: flex; flex-direction: column; gap: 12px; }
+    .list-item {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+    }
+    .list-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .list-item-title { font-size: .88rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .list-item-actions { display: flex; gap: 6px; }
+    .drag-handle { cursor: grab; color: var(--muted); font-size: 1rem; }
+
+    /* ── IMAGE UPLOAD ── */
+    .img-upload-zone {
+      border: 2px dashed var(--border); border-radius: var(--radius);
+      padding: 18px; text-align: center; cursor: pointer; transition: border .2s;
+      position: relative; background: var(--bg);
+    }
+    .img-upload-zone:hover { border-color: var(--gold); }
+    .img-upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .img-upload-zone p { color: var(--muted); font-size: .82rem; }
+    .img-preview { width: 100%; max-height: 120px; object-fit: cover; border-radius: 6px; margin-top: 10px; display: none; }
+    .img-url-row { display: flex; gap: 8px; margin-top: 8px; }
+    .img-url-row input { flex: 1; }
+
+    /* ── TAGS INPUT ── */
+    .tags-wrap { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; min-height: 40px; cursor: text; }
+    .tag-chip { background: var(--gold-dim); color: var(--gold); border-radius: 20px; padding: 2px 10px; font-size: .78rem; display: flex; align-items: center; gap: 4px; }
+    .tag-chip button { background: none; border: none; color: inherit; cursor: pointer; font-size: .85rem; padding: 0 0 0 2px; opacity: .7; }
+    .tag-chip button:hover { opacity: 1; }
+    .tags-input { background: none; border: none; outline: none; color: var(--text); font-size: .85rem; min-width: 80px; flex: 1; font-family: inherit; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 28px; right: 28px;
+      background: var(--success); color: #fff; padding: 12px 20px;
+      border-radius: 10px; font-size: .88rem; font-weight: 500;
+      transform: translateY(80px); opacity: 0; transition: all .3s;
+      z-index: 9000; pointer-events: none;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── BADGE ── */
+    .badge { font-size: .7rem; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+    .badge-info { background: rgba(74,128,245,.15); color: var(--accent); }
+
+    /* ── DIVIDER ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+
+    /* ── SECTION TOGGLE ── */
+    .collapsible { cursor: pointer; }
+    .collapsible .chevron { transition: transform .2s; display: inline-block; }
+    .collapsible.open .chevron { transform: rotate(90deg); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      :root { --sidebar-w: 60px; }
+      .nav-item span { display: none; }
+      .sidebar-logo span, .sidebar-logo .brand { display: none; }
+      .nav-section { display: none; }
+      .form-row, .form-row-3 { grid-template-columns: 1fr; }
+    }
+
+    /* ─── PREVIEW BADGE ─── */
+    .preview-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .8rem; color: var(--muted); text-decoration: none;
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      transition: all .2s;
+    }
+    .preview-link:hover { border-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════════════════ -->
+<div id="loginScreen">
+  <div style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:8px">🔐</div>
+    <h1>RV Soluciones CMS</h1>
+    <p>Panel de administración del sitio web</p>
+  </div>
+  <div class="login-box">
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" id="loginInput" placeholder="Ingresa tu contraseña" autocomplete="current-password" />
+    </div>
+    <span id="loginError">Contraseña incorrecta</span>
+    <button onclick="doLogin()">Entrar al panel</button>
+    <p style="color:var(--muted);font-size:.75rem;text-align:center">Contraseña por defecto: <strong style="color:var(--gold)">rv2025</strong></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MAIN APP LAYOUT
+══════════════════════════════════════════════════ -->
+<div id="appLayout" style="display:none">
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="sidebar-logo">
+      <div class="brand">⚙️ CMS</div>
+      <span>RV Soluciones Admin</span>
+    </div>
+    <nav>
+      <div class="nav-section">Secciones</div>
+      <button class="nav-item active" onclick="showPanel('hero',this)">
+        <span class="icon">🏠</span><span>Hero</span>
+      </button>
+      <button class="nav-item" onclick="showPanel('navbar',this)">
+        <span class="icon">🧭</span><span>Menú / Nav</span>
+      </button>
+      <button class="nav-item" onclick="showPanel('services',this)">
+        <span class="icon">🛠</span><span>Servicios</span>
+      </button>
+      <button class="nav-item" onclick="showPanel('portfolio',this)">
+        <span class="icon">🖼</span><span>Portafolio</span>
+      </button>
+      <button class="nav-item" onclick="showPanel('why',this)">
+        <span class="icon">⭐</span><span>Nosotros</span>
+      </button>
+      <button class="nav-item" onclick="showPanel('contact',this)">
+        <span class="icon">📞</span><span>Contacto</span>
+      </button>
+      <button class="nav-item" onclick="showPanel('footer',this)">
+        <span class="icon">🦶</span><span>Footer</span>
+      </button>
+      <div class="nav-section">Sitio</div>
+      <button class="nav-item" onclick="showPanel('seo',this)">
+        <span class="icon">🔎</span><span>SEO / Meta</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button onclick="doLogout()">🚪 Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+    <div class="topbar">
+      <h1 id="panelTitle">Hero</h1>
+      <div class="topbar-actions">
+        <a class="preview-link" href="index.html" target="_blank">👁 Ver sitio</a>
+        <button class="btn btn-outline" onclick="resetToDefault()">↩ Restaurar</button>
+        <button class="btn btn-outline" onclick="exportConfig()">⬇ Exportar config.js</button>
+        <button class="btn btn-gold" onclick="saveAll()">💾 Guardar cambios</button>
+      </div>
+    </div>
+
+    <div class="content-area">
+
+      <!-- ────────── HERO ────────── -->
+      <div id="panel-hero" class="panel active">
+        <div class="card">
+          <div class="card-title">Badge y Título</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="form-group">
+              <label>Badge (etiqueta pequeña)</label>
+              <input type="text" id="hero_badge" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Título línea 1</label>
+                <input type="text" id="hero_titleLine1" />
+              </div>
+              <div class="form-group">
+                <label>Palabra dorada (resaltada)</label>
+                <input type="text" id="hero_titleGold" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Título línea 2</label>
+              <input type="text" id="hero_titleLine2" />
+            </div>
+            <div class="form-group">
+              <label>Descripción</label>
+              <textarea id="hero_description" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Botones</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Botón 1 — Texto</label>
+              <input type="text" id="hero_btn1Label" />
+            </div>
+            <div class="form-group">
+              <label>Botón 1 — Enlace</label>
+              <input type="text" id="hero_btn1Href" />
+            </div>
+            <div class="form-group">
+              <label>Botón 2 — Texto</label>
+              <input type="text" id="hero_btn2Label" />
+            </div>
+            <div class="form-group">
+              <label>Botón 2 — Enlace</label>
+              <input type="text" id="hero_btn2Href" />
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Estadísticas</div>
+          <div id="hero_stats_wrap" class="list-wrap"></div>
+        </div>
+      </div>
+
+      <!-- ────────── NAVBAR ────────── -->
+      <div id="panel-navbar" class="panel">
+        <div class="card">
+          <div class="card-title">Marca / Logo</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombre de la marca</label>
+              <input type="text" id="nav_brand" />
+            </div>
+            <div class="form-group">
+              <label>Botón CTA — Texto</label>
+              <input type="text" id="nav_ctaLabel" />
+            </div>
+            <div class="form-group full-width">
+              <label>Botón CTA — Enlace</label>
+              <input type="text" id="nav_ctaHref" />
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+            <span>Links del menú</span>
+            <button class="btn btn-outline btn-sm" onclick="addNavLink()">+ Agregar link</button>
+          </div>
+          <div id="nav_links_wrap" class="list-wrap"></div>
+        </div>
+      </div>
+
+      <!-- ────────── SERVICES ────────── -->
+      <div id="panel-services" class="panel">
+        <div class="card">
+          <div class="card-title">Encabezado de sección</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-group">
+              <label>Etiqueta</label>
+              <input type="text" id="svc_label" />
+            </div>
+            <div class="form-group">
+              <label>Título</label>
+              <input type="text" id="svc_title" />
+            </div>
+            <div class="form-group">
+              <label>Subtítulo</label>
+              <textarea id="svc_subtitle" rows="2"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+            <span>Servicios</span>
+            <button class="btn btn-outline btn-sm" onclick="addService()">+ Agregar servicio</button>
+          </div>
+          <div id="services_wrap" class="list-wrap"></div>
+        </div>
+      </div>
+
+      <!-- ────────── PORTFOLIO ────────── -->
+      <div id="panel-portfolio" class="panel">
+        <div class="card">
+          <div class="card-title">Encabezado de sección</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-group">
+              <label>Etiqueta</label>
+              <input type="text" id="pf_label" />
+            </div>
+            <div class="form-group">
+              <label>Título</label>
+              <input type="text" id="pf_title" />
+            </div>
+            <div class="form-group">
+              <label>Subtítulo</label>
+              <textarea id="pf_subtitle" rows="2"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+            <span>Proyectos</span>
+            <button class="btn btn-gold btn-sm" onclick="addProject()">+ Agregar proyecto</button>
+          </div>
+          <div id="portfolio_wrap" class="list-wrap"></div>
+        </div>
+      </div>
+
+      <!-- ────────── WHY ────────── -->
+      <div id="panel-why" class="panel">
+        <div class="card">
+          <div class="card-title">Encabezado de sección</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-group"><label>Etiqueta</label><input type="text" id="why_label" /></div>
+            <div class="form-group"><label>Título</label><input type="text" id="why_title" /></div>
+            <div class="form-group"><label>Subtítulo</label><textarea id="why_subtitle" rows="3"></textarea></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+            <span>Puntos de valor</span>
+            <button class="btn btn-outline btn-sm" onclick="addWhyPoint()">+ Agregar punto</button>
+          </div>
+          <div id="why_points_wrap" class="list-wrap"></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+            <span>Tarjetas de estadísticas</span>
+            <button class="btn btn-outline btn-sm" onclick="addWhyCard()">+ Agregar tarjeta</button>
+          </div>
+          <div id="why_cards_wrap" class="list-wrap"></div>
+        </div>
+      </div>
+
+      <!-- ────────── CONTACT ────────── -->
+      <div id="panel-contact" class="panel">
+        <div class="card">
+          <div class="card-title">Encabezado</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-row">
+              <div class="form-group"><label>Etiqueta</label><input type="text" id="ct_label" /></div>
+              <div class="form-group"><label>Título</label><input type="text" id="ct_title" /></div>
+            </div>
+            <div class="form-group"><label>Subtítulo</label><textarea id="ct_subtitle" rows="2"></textarea></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Métodos de contacto</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-group"><label>WhatsApp URL (con mensaje)</label><input type="text" id="ct_whatsapp" /></div>
+            <div class="form-group"><label>WhatsApp — subtexto</label><input type="text" id="ct_whatsappLabel" /></div>
+            <div class="form-group"><label>Email</label><input type="text" id="ct_email" /></div>
+            <div class="form-group"><label>Email — subtexto</label><input type="text" id="ct_emailLabel" /></div>
+            <div class="form-group"><label>Ubicación — texto</label><input type="text" id="ct_location" /></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Formulario</div>
+          <div class="form-row">
+            <div class="form-group"><label>Título del formulario</label><input type="text" id="ct_formTitle" /></div>
+            <div class="form-group"><label>Texto del botón enviar</label><input type="text" id="ct_formBtn" /></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────── FOOTER ────────── -->
+      <div id="panel-footer" class="panel">
+        <div class="card">
+          <div class="card-title">Footer</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-group"><label>Nombre de la marca</label><input type="text" id="ft_brand" /></div>
+            <div class="form-group"><label>Texto de copyright</label><input type="text" id="ft_copyright" /></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────── SEO ────────── -->
+      <div id="panel-seo" class="panel">
+        <div class="card">
+          <div class="card-title">SEO y Meta tags</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-group"><label>Título de la pestaña (title)</label><input type="text" id="meta_title" /></div>
+            <div class="form-group"><label>Meta descripción</label><textarea id="meta_description" rows="3"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content-area -->
+  </main>
+</div>
+
+<!-- TOAST -->
+<div id="toast">✅ Cambios guardados</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════════════
+const PASS_KEY  = 'rv_cms_auth';
+const DATA_KEY  = 'rv_cms_config';
+const PASS_HASH = 'rv2025'; // cámbiala aquí
+
+let cfg = {}; // config working copy
+
+function showToast(msg = '✅ Cambios guardados', type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = type === 'success' ? 'var(--success)' : 'var(--danger)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function deepClone(o) { return JSON.parse(JSON.stringify(o)); }
+
+function val(id)    { return document.getElementById(id)?.value ?? ''; }
+function setVal(id, v) { const el = document.getElementById(id); if (el) el.value = v ?? ''; }
+
+// ─── LOGIN ───────────────────────────────────────────────────────────────
+function doLogin() {
+  const pw = document.getElementById('loginInput').value;
+  if (pw === PASS_HASH) {
+    localStorage.setItem(PASS_KEY, '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appLayout').style.display = 'flex';
+    initApp();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+document.getElementById('loginInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+function doLogout() {
+  localStorage.removeItem(PASS_KEY);
+  location.reload();
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────
+function initApp() {
+  const saved = localStorage.getItem(DATA_KEY);
+  cfg = saved ? JSON.parse(saved) : deepClone(RV_CONFIG);
+  populateAll();
+}
+
+if (localStorage.getItem(PASS_KEY) === '1') {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appLayout').style.display = 'flex';
+  initApp();
+}
+
+// ─── PANEL NAVIGATION ────────────────────────────────────────────────────
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+  const titles = { hero:'Hero', navbar:'Menú / Navbar', services:'Servicios', portfolio:'Portafolio', why:'Nosotros', contact:'Contacto', footer:'Footer', seo:'SEO / Meta' };
+  document.getElementById('panelTitle').textContent = titles[id] || id;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  POPULATE ALL PANELS FROM cfg
+// ═══════════════════════════════════════════════════════════════
+function populateAll() {
+  populateHero();
+  populateNavbar();
+  populateServices();
+  populatePortfolio();
+  populateWhy();
+  populateContact();
+  populateFooter();
+  populateSEO();
+}
+
+// ─── HERO ────────────────────────────────────────────────────────────────
+function populateHero() {
+  const h = cfg.hero;
+  setVal('hero_badge',       h.badge);
+  setVal('hero_titleLine1',  h.titleLine1);
+  setVal('hero_titleGold',   h.titleGold);
+  setVal('hero_titleLine2',  h.titleLine2);
+  setVal('hero_description', h.description);
+  setVal('hero_btn1Label',   h.btn1Label);
+  setVal('hero_btn1Href',    h.btn1Href);
+  setVal('hero_btn2Label',   h.btn2Label);
+  setVal('hero_btn2Href',    h.btn2Href);
+  renderHeroStats();
+}
+function renderHeroStats() {
+  const wrap = document.getElementById('hero_stats_wrap');
+  wrap.innerHTML = '';
+  cfg.hero.stats.forEach((s, i) => {
+    wrap.innerHTML += `
+    <div class="list-item">
+      <div class="form-row-3">
+        <div class="form-group">
+          <label>Número</label>
+          <input type="number" value="${s.number}" oninput="cfg.hero.stats[${i}].number=+this.value">
+        </div>
+        <div class="form-group">
+          <label>Sufijo (%, +, etc.)</label>
+          <input type="text" value="${s.suffix}" oninput="cfg.hero.stats[${i}].suffix=this.value">
+        </div>
+        <div class="form-group">
+          <label>Etiqueta</label>
+          <input type="text" value="${s.label}" oninput="cfg.hero.stats[${i}].label=this.value">
+        </div>
+      </div>
+      <div style="margin-top:10px;text-align:right">
+        <button class="btn btn-danger btn-sm" onclick="cfg.hero.stats.splice(${i},1);renderHeroStats()">🗑 Eliminar</button>
+      </div>
+    </div>`;
+  });
+  wrap.innerHTML += `<button class="btn btn-outline btn-sm" style="margin-top:4px" onclick="cfg.hero.stats.push({number:0,suffix:'',label:'Nueva stat'});renderHeroStats()">+ Agregar estadística</button>`;
+}
+
+// ─── NAVBAR ──────────────────────────────────────────────────────────────
+function populateNavbar() {
+  setVal('nav_brand',    cfg.navbar.brand);
+  setVal('nav_ctaLabel', cfg.navbar.ctaLabel);
+  setVal('nav_ctaHref',  cfg.navbar.ctaHref);
+  renderNavLinks();
+}
+function renderNavLinks() {
+  const wrap = document.getElementById('nav_links_wrap');
+  wrap.innerHTML = '';
+  cfg.navbar.links.forEach((l, i) => {
+    wrap.innerHTML += `
+    <div class="list-item">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Texto del link</label>
+          <input type="text" value="${l.label}" oninput="cfg.navbar.links[${i}].label=this.value">
+        </div>
+        <div class="form-group">
+          <label>Destino (href)</label>
+          <input type="text" value="${l.href}" oninput="cfg.navbar.links[${i}].href=this.value">
+        </div>
+      </div>
+      <div style="margin-top:10px;text-align:right">
+        <button class="btn btn-danger btn-sm" onclick="cfg.navbar.links.splice(${i},1);renderNavLinks()">🗑 Eliminar</button>
+      </div>
+    </div>`;
+  });
+}
+function addNavLink() {
+  cfg.navbar.links.push({ label: 'Nuevo link', href: '#' });
+  renderNavLinks();
+}
+
+// ─── SERVICES ────────────────────────────────────────────────────────────
+function populateServices() {
+  setVal('svc_label',    cfg.services.label);
+  setVal('svc_title',    cfg.services.title);
+  setVal('svc_subtitle', cfg.services.subtitle);
+  renderServices();
+}
+function renderServices() {
+  const wrap = document.getElementById('services_wrap');
+  wrap.innerHTML = '';
+  cfg.services.items.forEach((s, i) => {
+    const featHtml = (s.features||[]).map((f,fi) =>
+      `<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">
+        <input type="text" value="${escHtml(f)}" oninput="cfg.services.items[${i}].features[${fi}]=this.value"
+          style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-family:inherit;font-size:.83rem">
+        <button class="btn btn-danger btn-sm" onclick="cfg.services.items[${i}].features.splice(${fi},1);renderServices()">✕</button>
+      </div>`
+    ).join('');
+    wrap.innerHTML += `
+    <div class="list-item">
+      <div class="list-item-header">
+        <div class="list-item-title">${s.icon} ${escHtml(s.title)}</div>
+        <button class="btn btn-danger btn-sm" onclick="cfg.services.items.splice(${i},1);renderServices()">🗑 Eliminar</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ícono (emoji)</label>
+            <input type="text" value="${s.icon}" oninput="cfg.services.items[${i}].icon=this.value">
+          </div>
+          <div class="form-group">
+            <label>Título</label>
+            <input type="text" value="${escHtml(s.title)}" oninput="cfg.services.items[${i}].title=this.value">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea oninput="cfg.services.items[${i}].desc=this.value" rows="2">${escHtml(s.desc)}</textarea>
+        </div>
+        <div class="form-group">
+          <label>Características</label>
+          ${featHtml}
+          <button class="btn btn-outline btn-sm" style="margin-top:4px" onclick="cfg.services.items[${i}].features.push('Nueva característica');renderServices()">+ Agregar característica</button>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+function addService() {
+  cfg.services.items.push({ id:'svc'+Date.now(), icon:'✨', title:'Nuevo Servicio', desc:'Descripción del servicio.', features:['Característica 1'] });
+  renderServices();
+}
+
+// ─── PORTFOLIO ───────────────────────────────────────────────────────────
+function populatePortfolio() {
+  setVal('pf_label',    cfg.portfolio.label);
+  setVal('pf_title',    cfg.portfolio.title);
+  setVal('pf_subtitle', cfg.portfolio.subtitle);
+  renderPortfolio();
+}
+function renderPortfolio() {
+  const wrap = document.getElementById('portfolio_wrap');
+  wrap.innerHTML = '';
+  cfg.portfolio.projects.forEach((p, i) => {
+    const techHtml = (p.tech||[]).map(t => `<span class="tag-chip">${t}<button onclick="removeTech(${i},'${t}')">×</button></span>`).join('');
+    wrap.innerHTML += `
+    <div class="list-item">
+      <div class="list-item-header">
+        <div class="list-item-title">🖼 ${escHtml(p.title)}</div>
+        <button class="btn btn-danger btn-sm" onclick="cfg.portfolio.projects.splice(${i},1);renderPortfolio()">🗑 Eliminar</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Título del proyecto</label>
+            <input type="text" value="${escHtml(p.title)}" oninput="cfg.portfolio.projects[${i}].title=this.value">
+          </div>
+          <div class="form-group">
+            <label>Tag / Categoría</label>
+            <input type="text" value="${escHtml(p.tag)}" oninput="cfg.portfolio.projects[${i}].tag=this.value">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea oninput="cfg.portfolio.projects[${i}].desc=this.value" rows="3">${escHtml(p.desc)}</textarea>
+        </div>
+        <div class="form-group">
+          <label>Imagen</label>
+          <div class="img-upload-zone" id="imgZone_${i}">
+            <input type="file" accept="image/*" onchange="handleImgFile(event,${i})">
+            <p>📁 Haz clic o arrastra una imagen aquí</p>
+            ${p.image ? `<img src="${p.image}" class="img-preview" style="display:block">` : ''}
+          </div>
+          <div class="img-url-row">
+            <input type="text" placeholder="O pega una URL de imagen..." value="${p.image && p.image.startsWith('http') ? p.image : ''}"
+              oninput="cfg.portfolio.projects[${i}].image=this.value;renderPortfolio()" />
+            <button class="btn btn-outline btn-sm" onclick="cfg.portfolio.projects[${i}].image='';renderPortfolio()">🗑</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Link del proyecto (opcional)</label>
+          <input type="text" placeholder="https://..." value="${escHtml(p.link||'')}" oninput="cfg.portfolio.projects[${i}].link=this.value">
+        </div>
+        <div class="form-group">
+          <label>Tecnologías / Tags</label>
+          <div class="tags-wrap" onclick="this.querySelector('.tags-input').focus()">
+            ${techHtml}
+            <input class="tags-input" placeholder="Escribe y presiona Enter..." onkeydown="addTech(event,${i})">
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+function addProject() {
+  cfg.portfolio.projects.push({ id:'proj'+Date.now(), image:'', alt:'', tag:'Sitio Web', title:'Nuevo Proyecto', desc:'Descripción del proyecto.', tech:[], link:'' });
+  renderPortfolio();
+}
+function addTech(e, idx) {
+  if (e.key !== 'Enter' && e.key !== ',') return;
+  e.preventDefault();
+  const v = e.target.value.trim();
+  if (v && !cfg.portfolio.projects[idx].tech.includes(v)) {
+    cfg.portfolio.projects[idx].tech.push(v);
+    renderPortfolio();
+  }
+}
+function removeTech(idx, tag) {
+  cfg.portfolio.projects[idx].tech = cfg.portfolio.projects[idx].tech.filter(t => t !== tag);
+  renderPortfolio();
+}
+function handleImgFile(e, idx) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    cfg.portfolio.projects[idx].image = ev.target.result;
+    renderPortfolio();
+  };
+  reader.readAsDataURL(file);
+}
+
+// ─── WHY ─────────────────────────────────────────────────────────────────
+function populateWhy() {
+  setVal('why_label',    cfg.why.label);
+  setVal('why_title',    cfg.why.title);
+  setVal('why_subtitle', cfg.why.subtitle);
+  renderWhyPoints();
+  renderWhyCards();
+}
+function renderWhyPoints() {
+  const wrap = document.getElementById('why_points_wrap');
+  wrap.innerHTML = '';
+  cfg.why.points.forEach((p, i) => {
+    wrap.innerHTML += `
+    <div class="list-item">
+      <div class="list-item-header">
+        <div class="list-item-title">${p.icon} ${escHtml(p.title)}</div>
+        <button class="btn btn-danger btn-sm" onclick="cfg.why.points.splice(${i},1);renderWhyPoints()">🗑</button>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Ícono</label><input type="text" value="${p.icon}" oninput="cfg.why.points[${i}].icon=this.value"></div>
+        <div class="form-group"><label>Título</label><input type="text" value="${escHtml(p.title)}" oninput="cfg.why.points[${i}].title=this.value"></div>
+        <div class="form-group full-width"><label>Descripción</label><textarea rows="2" oninput="cfg.why.points[${i}].desc=this.value">${escHtml(p.desc)}</textarea></div>
+      </div>
+    </div>`;
+  });
+}
+function addWhyPoint() {
+  cfg.why.points.push({ icon:'✨', title:'Nuevo punto', desc:'Descripción del punto de valor.' });
+  renderWhyPoints();
+}
+function renderWhyCards() {
+  const wrap = document.getElementById('why_cards_wrap');
+  wrap.innerHTML = '';
+  cfg.why.cards.forEach((c, i) => {
+    wrap.innerHTML += `
+    <div class="list-item">
+      <div class="form-row">
+        <div class="form-group"><label>Valor</label><input type="text" value="${escHtml(c.value)}" oninput="cfg.why.cards[${i}].value=this.value"></div>
+        <div class="form-group"><label>Etiqueta</label><input type="text" value="${escHtml(c.label)}" oninput="cfg.why.cards[${i}].label=this.value"></div>
+      </div>
+      <div style="text-align:right;margin-top:8px"><button class="btn btn-danger btn-sm" onclick="cfg.why.cards.splice(${i},1);renderWhyCards()">🗑 Eliminar</button></div>
+    </div>`;
+  });
+}
+function addWhyCard() {
+  cfg.why.cards.push({ value: '0', label: 'Nueva tarjeta' });
+  renderWhyCards();
+}
+
+// ─── CONTACT ─────────────────────────────────────────────────────────────
+function populateContact() {
+  const c = cfg.contact;
+  setVal('ct_label',        c.label);
+  setVal('ct_title',        c.title);
+  setVal('ct_subtitle',     c.subtitle);
+  setVal('ct_whatsapp',     c.whatsapp);
+  setVal('ct_whatsappLabel',c.whatsappLabel);
+  setVal('ct_email',        c.email);
+  setVal('ct_emailLabel',   c.emailLabel);
+  setVal('ct_location',     c.location);
+  setVal('ct_formTitle',    c.formTitle);
+  setVal('ct_formBtn',      c.formBtn);
+}
+
+// ─── FOOTER ──────────────────────────────────────────────────────────────
+function populateFooter() {
+  setVal('ft_brand',     cfg.footer.brand);
+  setVal('ft_copyright', cfg.footer.copyright);
+}
+
+// ─── SEO ─────────────────────────────────────────────────────────────────
+function populateSEO() {
+  setVal('meta_title',       cfg.meta.title);
+  setVal('meta_description', cfg.meta.description);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  COLLECT ALL VALUES FROM FORM → cfg
+// ═══════════════════════════════════════════════════════════════
+function collectAll() {
+  // hero
+  cfg.hero.badge       = val('hero_badge');
+  cfg.hero.titleLine1  = val('hero_titleLine1');
+  cfg.hero.titleGold   = val('hero_titleGold');
+  cfg.hero.titleLine2  = val('hero_titleLine2');
+  cfg.hero.description = val('hero_description');
+  cfg.hero.btn1Label   = val('hero_btn1Label');
+  cfg.hero.btn1Href    = val('hero_btn1Href');
+  cfg.hero.btn2Label   = val('hero_btn2Label');
+  cfg.hero.btn2Href    = val('hero_btn2Href');
+  // navbar
+  cfg.navbar.brand    = val('nav_brand');
+  cfg.navbar.ctaLabel = val('nav_ctaLabel');
+  cfg.navbar.ctaHref  = val('nav_ctaHref');
+  // services
+  cfg.services.label    = val('svc_label');
+  cfg.services.title    = val('svc_title');
+  cfg.services.subtitle = val('svc_subtitle');
+  // portfolio
+  cfg.portfolio.label    = val('pf_label');
+  cfg.portfolio.title    = val('pf_title');
+  cfg.portfolio.subtitle = val('pf_subtitle');
+  // why
+  cfg.why.label    = val('why_label');
+  cfg.why.title    = val('why_title');
+  cfg.why.subtitle = val('why_subtitle');
+  // contact
+  cfg.contact.label         = val('ct_label');
+  cfg.contact.title         = val('ct_title');
+  cfg.contact.subtitle      = val('ct_subtitle');
+  cfg.contact.whatsapp      = val('ct_whatsapp');
+  cfg.contact.whatsappLabel = val('ct_whatsappLabel');
+  cfg.contact.email         = val('ct_email');
+  cfg.contact.emailLabel    = val('ct_emailLabel');
+  cfg.contact.location      = val('ct_location');
+  cfg.contact.formTitle     = val('ct_formTitle');
+  cfg.contact.formBtn       = val('ct_formBtn');
+  // footer
+  cfg.footer.brand     = val('ft_brand');
+  cfg.footer.copyright = val('ft_copyright');
+  // meta
+  cfg.meta.title       = val('meta_title');
+  cfg.meta.description = val('meta_description');
+}
+
+// ─── SAVE ────────────────────────────────────────────────────────────────
+function saveAll() {
+  collectAll();
+  localStorage.setItem(DATA_KEY, JSON.stringify(cfg));
+  showToast('✅ Cambios guardados en el navegador');
+}
+
+// ─── RESET ───────────────────────────────────────────────────────────────
+function resetToDefault() {
+  if (!confirm('¿Restaurar todos los valores originales? Se perderán los cambios no exportados.')) return;
+  localStorage.removeItem(DATA_KEY);
+  cfg = deepClone(RV_CONFIG);
+  populateAll();
+  showToast('↩ Restaurado a valores originales', 'success');
+}
+
+// ─── EXPORT ──────────────────────────────────────────────────────────────
+function exportConfig() {
+  collectAll();
+  const json = JSON.stringify(cfg, null, 2);
+  const fileContent = `/**
+ * RV Soluciones — Configuración del sitio
+ * Generado desde el panel admin el ${new Date().toLocaleString('es-CL')}
+ */
+const RV_CONFIG = ${json};
+`;
+  const blob = new Blob([fileContent], { type: 'application/javascript' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'config.js';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('⬇ config.js descargado — sube a GitHub para publicar');
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

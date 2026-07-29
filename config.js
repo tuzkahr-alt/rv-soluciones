@@ -1,0 +1,168 @@
+/**
+ * RV Soluciones — Configuración del sitio
+ * ----------------------------------------
+ * Edita este archivo desde el panel admin (admin.html)
+ * o modifícalo directamente aquí.
+ * Después de cada cambio: git add . && git commit -m "update" && git push
+ */
+const RV_CONFIG = {
+  // ─── NAVBAR ──────────────────────────────────────────────────────────
+  navbar: {
+    brand: "RV Soluciones",
+    logo: "assets/logo.png",
+    links: [
+      { label: "Servicios",  href: "#servicios" },
+      { label: "Portafolio", href: "#portafolio" },
+      { label: "Nosotros",   href: "#diferenciadores" }
+    ],
+    ctaLabel: "Contáctame",
+    ctaHref:  "#contacto"
+  },
+
+  // ─── HERO ─────────────────────────────────────────────────────────────
+  hero: {
+    badge:       "Consultoría Tecnológica Profesional",
+    titleLine1:  "Tecnología que",
+    titleGold:   "transforma",
+    titleLine2:  "negocios",
+    description: "Diseño y desarrollo soluciones digitales a medida — sitios web profesionales, sistemas de gestión empresarial y auditoría TI — para que tu negocio crezca con tecnología de calidad.",
+    btn1Label:   "Ver mis proyectos",
+    btn1Href:    "#portafolio",
+    btn2Label:   "Hablemos",
+    btn2Href:    "#contacto",
+    stats: [
+      { number: 100, suffix: "%", label: "Personalizado" },
+      { number: 3,   suffix: "",  label: "Servicios clave" },
+      { number: 0,   suffix: "",  label: "Costos ocultos" }
+    ]
+  },
+
+  // ─── SERVICIOS ────────────────────────────────────────────────────────
+  services: {
+    label:    "¿Qué ofrezco?",
+    title:    "Servicios diseñados para tu negocio",
+    subtitle: "Cada proyecto es único. Trabajo contigo desde la idea hasta la entrega, con soluciones a medida que realmente resuelven tu problema.",
+    items: [
+      {
+        id:       "servicioWeb",
+        icon:     "🌐",
+        title:    "Sitios Web para Negocios",
+        desc:     "Diseño y desarrollo sitios web modernos, rápidos y profesionales que generan confianza y atraen más clientes a tu negocio.",
+        features: [
+          "Diseño responsive (móvil y escritorio)",
+          "Catálogo de productos interactivo",
+          "Optimizado para buscadores (SEO)",
+          "Formularios de contacto y WhatsApp"
+        ]
+      },
+      {
+        id:       "servicioSistemas",
+        icon:     "📊",
+        title:    "Sistemas de Gestión",
+        desc:     "Reportes empresariales, dashboards y sistemas de control que te dan visibilidad total sobre tu negocio para tomar mejores decisiones.",
+        features: [
+          "Reportes automatizados y visuales",
+          "Control de inventario y ventas",
+          "Exportación a PDF y Excel",
+          "Sin dependencias de internet"
+        ]
+      },
+      {
+        id:       "servicioAuditoria",
+        icon:     "🔍",
+        title:    "Auditoría TI",
+        desc:     "Análisis completo del parque tecnológico de tu empresa: hardware, software, licencias y seguridad para optimizar costos y reducir riesgos.",
+        features: [
+          "Inventario detallado de equipos y SW",
+          "Análisis de seguridad y vulnerabilidades",
+          "Reporte ejecutivo con recomendaciones",
+          "Plan de optimización de licencias"
+        ]
+      }
+    ]
+  },
+
+  // ─── PORTAFOLIO ───────────────────────────────────────────────────────
+  portfolio: {
+    label:    "Proyectos reales",
+    title:    "Trabajo que habla por sí mismo",
+    subtitle: "Proyectos completados y entregados a clientes reales. Cada uno resuelve un problema concreto con tecnología de calidad.",
+    projects: [
+      {
+        id:    "proyectoFerreteria",
+        image: "assets/portfolio-ferreteria.png",
+        alt:   "Sitio web Ferretería La Sierra — proyecto completado",
+        tag:   "Sitio Web · Comercio Local",
+        title: "Ferretería La Sierra",
+        desc:  "Sitio web premium para ferretería histórica en Viña del Mar, con más de 60 años de trayectoria. Catálogo interactivo, integración con WhatsApp y diseño que transmite confianza y calidad desde el primer clic.",
+        tech:  ["HTML5", "CSS3", "JavaScript", "Responsive", "Sin backend"],
+        link:  ""
+      },
+      {
+        id:    "proyectoProspeccion",
+        image: "assets/portfolio-prospeccion.png",
+        alt:   "Herramienta de prospección de negocios — proyecto completado",
+        tag:   "Herramienta · Prospección Digital",
+        title: "Negocios Sin Página Web",
+        desc:  "Dashboard de prospección que identifica negocios locales sin presencia digital en la V Región y Santiago. Permite detectar oportunidades de venta de servicios web de forma eficiente y segmentada.",
+        tech:  ["HTML5", "Dashboard", "Prospección", "Standalone", "Sin servidor"],
+        link:  ""
+      },
+      {
+        id:    "proyectoSocialHub",
+        image: "assets/portfolio-social-hub.png",
+        alt:   "Sitio web agencia digital Innovación Web Studio — proyecto completado",
+        tag:   "Sitio Web · Agencia Digital",
+        title: "Innovación Web Studio",
+        desc:  "Sitio web institucional para agencia de diseño y desarrollo digital. Diseño premium con animaciones fluidas, portafolio de proyectos, sección de servicios y formulario de contacto integrado.",
+        tech:  ["HTML5", "TailwindCSS", "JavaScript", "Animaciones", "Responsive"],
+        link:  ""
+      }
+    ]
+  },
+
+  // ─── NOSOTROS / WHY ───────────────────────────────────────────────────
+  why: {
+    label:    "¿Por qué RV Soluciones?",
+    title:    "Mi compromiso con tu proyecto",
+    subtitle: "No soy una agencia genérica. Soy un profesional independiente que trabaja directamente contigo para entender tu negocio y entregarte exactamente lo que necesitas.",
+    points: [
+      { icon: "🎯", title: "Soluciones a medida",         desc: "Nada de plantillas genéricas. Todo se diseña y desarrolla específicamente para tu negocio y tus objetivos." },
+      { icon: "⚡", title: "Entrega rápida y eficiente",  desc: "Proyectos bien planificados que se entregan a tiempo, sin sorpresas ni retrasos innecesarios." },
+      { icon: "💎", title: "Transparencia total en precios", desc: "Cotización clara desde el inicio. Sin costos ocultos, sin sorpresas al final del proyecto." },
+      { icon: "🛡️", title: "Soporte post-entrega",        desc: "Mi trabajo no termina con la entrega. Te acompaño para que la solución funcione perfectamente." }
+    ],
+    cards: [
+      { value: "100%", label: "Código personalizado" },
+      { value: "3",    label: "Servicios especializados" },
+      { value: "$0",   label: "Costos ocultos" },
+      { value: "✓",   label: "Soporte incluido" }
+    ]
+  },
+
+  // ─── CONTACTO ─────────────────────────────────────────────────────────
+  contact: {
+    label:       "Contáctame",
+    title:       "Hablemos de tu proyecto",
+    subtitle:    "¿Tienes una idea o necesitas una solución tecnológica para tu negocio? Escríbeme y te respondo lo antes posible con una propuesta sin compromiso.",
+    whatsapp:    "https://wa.me/1234567890?text=Hola%20RV%20Soluciones%2C%20quiero%20información%20sobre%20sus%20servicios",
+    whatsappLabel: "Respuesta rápida disponible",
+    email:       "contacto@rvsoluciones.com",
+    emailLabel:  "contacto@rvsoluciones.com",
+    location:    "Servicio presencial y remoto",
+    formTitle:   "Envíame un mensaje",
+    formBtn:     "Enviar mensaje →"
+  },
+
+  // ─── FOOTER ───────────────────────────────────────────────────────────
+  footer: {
+    brand:     "RV Soluciones",
+    copyright: "© 2025 RV Soluciones · Todos los derechos reservados"
+  },
+
+  // ─── SEO / META ───────────────────────────────────────────────────────
+  meta: {
+    title:       "RV Soluciones — Tecnología que transforma negocios",
+    description: "RV Soluciones — Consultoría tecnológica y desarrollo de software a medida. Sitios web, sistemas de gestión y auditoría TI para empresas y negocios locales."
+  }
+};
