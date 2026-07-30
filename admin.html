@@ -745,7 +745,7 @@ function renderPortfolio() {
           <div class="img-upload-zone" id="imgZone_${i}">
             <input type="file" accept="image/*" onchange="handleImgFile(event,${i})">
             <p>📁 Haz clic o arrastra una imagen para subir</p>
-            <img id="imgPreview_${i}" src="${escHtml(p.image||'')}" class="img-preview" style="display:${p.image ? 'block' : 'none'}">
+            <img id="imgPreview_${i}" src="${escHtml(p.image||'')}" class="img-preview" style="display:${p.image ? 'block' : 'none'}" onload="this.style.display='block'" onerror="this.style.display='none'">
           </div>
           <div class="img-url-row">
             <input type="text" id="imgInput_${i}" placeholder="Ej: assets/mi-imagen.png o https://..." value="${escHtml(p.image||'')}"
@@ -808,15 +808,32 @@ function handleImgFile(e, idx) {
   const file = e.target.files[0];
   if (!file) return;
 
-  const defaultAssetPath = 'assets/' + file.name;
   const reader = new FileReader();
   reader.onload = ev => {
-    // For smaller images (<350KB), use data URL for immediate local preview
-    // For larger ones, use the relative path assets/filename.ext
-    const isSmall = file.size < 350000;
-    const finalVal = isSmall ? ev.target.result : defaultAssetPath;
-    
-    updateProjectImgPath(idx, finalVal);
+    const img = new Image();
+    img.onload = () => {
+      // Redimensionar automáticamente a máximo 1000px de ancho para optimizar velocidad y memoria
+      const canvas = document.createElement('canvas');
+      const maxW = 1000;
+      let w = img.width;
+      let h = img.height;
+      if (w > maxW) {
+        h = Math.round((h * maxW) / w);
+        w = maxW;
+      }
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+
+      // Convertir a JPEG comprimido al 75% (ocupa ~60KB - 120KB)
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+      updateProjectImgPath(idx, compressedDataUrl);
+    };
+    img.onerror = () => {
+      updateProjectImgPath(idx, ev.target.result);
+    };
+    img.src = ev.target.result;
   };
   reader.readAsDataURL(file);
 }
