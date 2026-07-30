@@ -242,9 +242,10 @@
       }
 
       const loc = document.getElementById('locationMethod');
-      if (loc && c.location) {
+      if (loc && (c.location || c.locationUrl)) {
+        if (c.locationUrl) loc.href = c.locationUrl;
         const p = loc.querySelector('p');
-        if (p) p.textContent = c.location;
+        if (p && c.location) p.textContent = c.location;
       }
     }
 

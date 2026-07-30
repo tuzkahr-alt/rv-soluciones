@@ -133,11 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       // Simple validation check
       const nombre = document.getElementById('formNombre').value.trim();
+      const empresa = document.getElementById('formEmpresa').value.trim();
       const email = document.getElementById('formEmail').value.trim();
       const servicio = document.getElementById('formServicio').value;
       const mensaje = document.getElementById('formMensaje').value.trim();
@@ -147,17 +148,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Simulate API submission
+      const targetEmail = (typeof RV_CONFIG !== 'undefined' && RV_CONFIG.contact && RV_CONFIG.contact.email) ? RV_CONFIG.contact.email : 'zuprims@gmail.com';
+
       const submitBtn = document.getElementById('submitFormBtn');
       submitBtn.innerText = 'Enviando...';
       submitBtn.disabled = true;
 
-      setTimeout(() => {
-        showToast(`¡Gracias ${nombre}! Tu mensaje ha sido enviado con éxito. Nos pondremos en contacto pronto.`);
-        contactForm.reset();
+      try {
+        const response = await fetch(`https://formsubmit.co/ajax/${targetEmail}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            nombre: nombre,
+            empresa: empresa || 'No especificada',
+            email: email,
+            servicio: servicio,
+            mensaje: mensaje,
+            _subject: `📩 Nuevo mensaje de ${nombre} — RV Soluciones`
+          })
+        });
+
+        if (response.ok) {
+          showToast(`¡Gracias ${nombre}! Tu mensaje ha sido enviado a ${targetEmail}. Te responderemos pronto.`);
+          contactForm.reset();
+        } else {
+          showToast('No se pudo enviar el mensaje. Por favor intenta por WhatsApp o Email.', false);
+        }
+      } catch (err) {
+        console.error('Error al enviar formulario:', err);
+        showToast('Error de conexión. Inténtalo de nuevo o contáctanos por WhatsApp.', false);
+      } finally {
         submitBtn.innerText = 'Enviar mensaje →';
         submitBtn.disabled = false;
-      }, 1500);
+      }
     });
   }
 });
