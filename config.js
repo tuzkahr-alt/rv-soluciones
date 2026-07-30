@@ -89,14 +89,34 @@ const RV_CONFIG = {
     subtitle: "Proyectos completados y entregados a clientes reales. Cada uno resuelve un problema concreto con tecnología de calidad.",
     projects: [
       {
+        id:    "proyectoParkingPro",
+        image: "assets/portfolio-parkingpro.png",
+        alt:   "ParkingPro — Sistema de Gestión de Estacionamientos",
+        tag:   "Software Pro · Estacionamientos",
+        title: "ParkingPro — Gestión de Estacionamientos",
+        desc:  "Software portable y completo para la gestión inteligente de estacionamientos. Control de flujo de vehículos en tiempo real, registro de entradas/salidas, asignación de espacios, emisión de cobros por minuto/hora, notificaciones en vivo y reportes.",
+        tech:  ["Electron", "Node.js", "SQLite", "Cobro Automático", "Notificaciones en Vivo"],
+        link:  "#contacto"
+      },
+      {
         id:    "proyectoMrPOS",
         image: "assets/mrpos.png",
         alt:   "MrPOS — Sistema Punto de Venta & Control de Stock Multirrubro",
-        tag:   "Software Pro · POS Multirrubro",
-        title: "MrPOS — Sistema Punto de Venta & Control de Stock",
-        desc:  "Sistema Punto de Venta (POS) profesional adaptado para cualquier rubro: Panadería, Botillería, Carnicería, Minimarket, Boutique y más. Incluye informes detallados, control de inventario en tiempo real, gestión de cajeros por PIN/RUT y ventas rápidas.",
-        tech:  ["Punto de Venta", "Control de Stock", "Multirrubro", "Informes de Ventas", "Gestión por PIN/RUT"],
-        link:  "#contacto"
+        tag:   "Sitio Web · Punto de Venta POS",
+        title: "MrPOS — Sistema Punto de Venta & Stock",
+        desc:  "Sitio web y plataforma para MrPOS, el sistema Punto de Venta (POS) chileno con emisión de boletas electrónicas, control de inventario automatizado y soporte 24/7 para botillerías, panaderías, minimarkets y más.",
+        tech:  ["Sitio Web", "Punto de Venta", "Control de Stock", "Boleta Electrónica", "Responsive"],
+        link:  "https://mrposchile.surge.sh/"
+      },
+      {
+        id:    "proyectoHostalDiMogalo",
+        image: "assets/portfolio-dimogalo.png",
+        alt:   "Hostal Di'Mogalo Valparaíso — Sitio Web Turístico",
+        tag:   "Sitio Web · Hotelería & Turismo",
+        title: "Hostal Di'Mogalo Valparaíso",
+        desc:  "Sitio web moderno y elegante para hostal boutique en Valparaíso. Presentación de habitaciones con tarifas, servicios, galería fotográfica, atractivos turísticos cercanos y sistema de reserva directa por WhatsApp.",
+        tech:  ["HTML5", "CSS3", "JavaScript", "Reservas WhatsApp", "Responsive"],
+        link:  "https://lomejordechile.github.io/di-mogalo-valparaiso/"
       },
       {
         id:    "proyectoFarmaciaPro",
@@ -126,26 +146,6 @@ const RV_CONFIG = {
         title: "Ferretería La Sierra",
         desc:  "Sitio web premium para ferretería histórica en Viña del Mar, con más de 60 años de trayectoria. Catálogo interactivo, integración con WhatsApp y diseño que transmite confianza y calidad desde el primer clic.",
         tech:  ["HTML5", "CSS3", "JavaScript", "Responsive", "Sin backend"],
-        link:  ""
-      },
-      {
-        id:    "proyectoProspeccion",
-        image: "assets/portfolio-prospeccion.png",
-        alt:   "Herramienta de prospección de negocios — proyecto completado",
-        tag:   "Herramienta · Prospección Digital",
-        title: "Negocios Sin Página Web",
-        desc:  "Dashboard de prospección que identifica negocios locales sin presencia digital en la V Región y Santiago. Permite detectar oportunidades de venta de servicios web de forma eficiente y segmentada.",
-        tech:  ["HTML5", "Dashboard", "Prospección", "Standalone", "Sin servidor"],
-        link:  ""
-      },
-      {
-        id:    "proyectoSocialHub",
-        image: "assets/portfolio-social-hub.png",
-        alt:   "Sitio web agencia digital Innovación Web Studio — proyecto completado",
-        tag:   "Sitio Web · Agencia Digital",
-        title: "Innovación Web Studio",
-        desc:  "Sitio web institucional para agencia de diseño y desarrollo digital. Diseño premium con animaciones fluidas, portafolio de proyectos, sección de servicios y formulario de contacto integrado.",
-        tech:  ["HTML5", "TailwindCSS", "JavaScript", "Animaciones", "Responsive"],
         link:  ""
       }
     ]
