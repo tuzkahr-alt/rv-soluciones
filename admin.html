@@ -718,39 +718,39 @@ function renderPortfolio() {
   const wrap = document.getElementById('portfolio_wrap');
   wrap.innerHTML = '';
   cfg.portfolio.projects.forEach((p, i) => {
-    const techHtml = (p.tech||[]).map(t => `<span class="tag-chip">${t}<button onclick="removeTech(${i},'${t}')">×</button></span>`).join('');
+    const techHtml = (p.tech||[]).map(t => `<span class="tag-chip">${escHtml(t)}<button onclick="removeTech(${i},'${escHtml(t)}')">×</button></span>`).join('');
     wrap.innerHTML += `
-    <div class="list-item">
+    <div class="list-item" id="projCard_${i}">
       <div class="list-item-header">
-        <div class="list-item-title">🖼 ${escHtml(p.title)}</div>
+        <div class="list-item-title" id="projCardTitle_${i}">🖼 ${escHtml(p.title || 'Proyecto')}</div>
         <button class="btn btn-danger btn-sm" onclick="cfg.portfolio.projects.splice(${i},1);renderPortfolio()">🗑 Eliminar</button>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="form-row">
           <div class="form-group">
             <label>Título del proyecto</label>
-            <input type="text" value="${escHtml(p.title)}" oninput="cfg.portfolio.projects[${i}].title=this.value">
+            <input type="text" value="${escHtml(p.title||'')}" oninput="cfg.portfolio.projects[${i}].title=this.value; document.getElementById('projCardTitle_${i}').textContent='🖼 ' + (this.value || 'Proyecto')">
           </div>
           <div class="form-group">
             <label>Tag / Categoría</label>
-            <input type="text" value="${escHtml(p.tag)}" oninput="cfg.portfolio.projects[${i}].tag=this.value">
+            <input type="text" value="${escHtml(p.tag||'')}" oninput="cfg.portfolio.projects[${i}].tag=this.value">
           </div>
         </div>
         <div class="form-group">
           <label>Descripción</label>
-          <textarea oninput="cfg.portfolio.projects[${i}].desc=this.value" rows="3">${escHtml(p.desc)}</textarea>
+          <textarea oninput="cfg.portfolio.projects[${i}].desc=this.value" rows="3">${escHtml(p.desc||'')}</textarea>
         </div>
         <div class="form-group">
-          <label>Imagen</label>
+          <label>Imagen del proyecto (Ruta local o URL)</label>
           <div class="img-upload-zone" id="imgZone_${i}">
             <input type="file" accept="image/*" onchange="handleImgFile(event,${i})">
-            <p>📁 Haz clic o arrastra una imagen aquí</p>
-            ${p.image ? `<img src="${p.image}" class="img-preview" style="display:block">` : ''}
+            <p>📁 Haz clic o arrastra una imagen para subir</p>
+            <img id="imgPreview_${i}" src="${escHtml(p.image||'')}" class="img-preview" style="display:${p.image ? 'block' : 'none'}">
           </div>
           <div class="img-url-row">
-            <input type="text" placeholder="O pega una URL de imagen..." value="${p.image && p.image.startsWith('http') ? p.image : ''}"
-              oninput="cfg.portfolio.projects[${i}].image=this.value;renderPortfolio()" />
-            <button class="btn btn-outline btn-sm" onclick="cfg.portfolio.projects[${i}].image='';renderPortfolio()">🗑</button>
+            <input type="text" id="imgInput_${i}" placeholder="Ej: assets/mi-imagen.png o https://..." value="${escHtml(p.image||'')}"
+              oninput="updateProjectImgPath(${i}, this.value)" />
+            <button class="btn btn-outline btn-sm" onclick="updateProjectImgPath(${i}, '')">🗑</button>
           </div>
         </div>
         <div class="form-group">
@@ -768,10 +768,27 @@ function renderPortfolio() {
     </div>`;
   });
 }
+
+function updateProjectImgPath(idx, val) {
+  cfg.portfolio.projects[idx].image = val;
+  const inputEl = document.getElementById(`imgInput_${idx}`);
+  if (inputEl && inputEl.value !== val) inputEl.value = val;
+  const prevEl = document.getElementById(`imgPreview_${idx}`);
+  if (prevEl) {
+    if (val) {
+      prevEl.src = val;
+      prevEl.style.display = 'block';
+    } else {
+      prevEl.style.display = 'none';
+    }
+  }
+}
+
 function addProject() {
   cfg.portfolio.projects.push({ id:'proj'+Date.now(), image:'', alt:'', tag:'Sitio Web', title:'Nuevo Proyecto', desc:'Descripción del proyecto.', tech:[], link:'' });
   renderPortfolio();
 }
+
 function addTech(e, idx) {
   if (e.key !== 'Enter' && e.key !== ',') return;
   e.preventDefault();
@@ -781,17 +798,25 @@ function addTech(e, idx) {
     renderPortfolio();
   }
 }
+
 function removeTech(idx, tag) {
   cfg.portfolio.projects[idx].tech = cfg.portfolio.projects[idx].tech.filter(t => t !== tag);
   renderPortfolio();
 }
+
 function handleImgFile(e, idx) {
   const file = e.target.files[0];
   if (!file) return;
+
+  const defaultAssetPath = 'assets/' + file.name;
   const reader = new FileReader();
   reader.onload = ev => {
-    cfg.portfolio.projects[idx].image = ev.target.result;
-    renderPortfolio();
+    // For smaller images (<350KB), use data URL for immediate local preview
+    // For larger ones, use the relative path assets/filename.ext
+    const isSmall = file.size < 350000;
+    const finalVal = isSmall ? ev.target.result : defaultAssetPath;
+    
+    updateProjectImgPath(idx, finalVal);
   };
   reader.readAsDataURL(file);
 }
@@ -924,8 +949,17 @@ function collectAll() {
 // ─── SAVE ────────────────────────────────────────────────────────────────
 function saveAll() {
   collectAll();
-  localStorage.setItem(DATA_KEY, JSON.stringify(cfg));
-  showToast('✅ Cambios guardados en el navegador');
+  try {
+    localStorage.setItem(DATA_KEY, JSON.stringify(cfg));
+    showToast('✅ Cambios guardados en el navegador');
+  } catch (err) {
+    console.error('Error guardando en localStorage:', err);
+    if (err.name === 'QuotaExceededError' || err.code === 22) {
+      alert('⚠️ No se pudieron guardar los cambios en la memoria del navegador porque las imágenes son muy pesadas.\n\nSugerencia: Usa rutas como "assets/nombre-foto.png" en lugar de cargar fotos gigantes.');
+    } else {
+      alert('⚠️ Error al guardar: ' + err.message);
+    }
+  }
 }
 
 // ─── RESET ───────────────────────────────────────────────────────────────
